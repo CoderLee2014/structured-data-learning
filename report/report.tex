@@ -28,7 +28,29 @@
 
 \maketitle
 \tableofcontents
+\section{Résumé du papier}
+Nous avons choisi de travailler sur le papier intitulé Deep Structured Output Learning Dor Unconstrained Text Recognition de Max Jaderberg, Karen Simonnyan, Andrea Vedaldi et Andrew Zisserman. Voici un résumé de ce que nous en avons compris.
+\subsection{introduction du problème}
+Ce papier s'attaque au problème très général suivant : détecter et reconnaître du texte sur une image. Plus précisément, ce papier suppose la phase de détection est déjà réalisée, en d'autres termes l'on ne considère que des images contenant uniquement un seul mot sans autre contenu. Le sujet principal est donc la reconnaissance de mot, et particulièrement de mot sans contrainte, c'est à dire des mots qui ne sont pas obligatoirement issue d'une liste de vocabulaires.
 
+\subsection{encodage de l'entrée}
+Comme dit précedemment, l'entrée du problème est un image, seulement pour des questions de standardisation, notre algorithme nécessite des images de taille fixe $32\times100$ en noir et blanc. Malheuresement les images des ensembles de données ne sont pas toutes la même taille, c'est pourquoi elle sont étirées pour atteindre ces dimensions et cela sans préserver les proportions. Les images, une fois chargée sous forme de matrices de dimension $32 \times 100$ sont normalisées en leur soustrayant leur moyenne et en les divisant par leur écart type. 
 
+\subsection{l'approche par caractère}
+L'approche par caractère considère que chaque caractère identifié selon sa position indépendemment des autres caractères. 
+
+\subsection{l'approche par sac de mots}
+
+\subsection{l'approche jointe}
+
+\subsection{les différents ensembles de données}
+
+\section{La méthode choisie}
+
+\section{L'implémentation}
+
+\section{Les résultats}
+
+\section{Conclusion}
 
 \end{document}
