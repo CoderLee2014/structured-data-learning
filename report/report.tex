@@ -39,15 +39,39 @@ Comme dit précedemment, l'entrée du problème est un image, seulement pour des
 \subsection{l'approche par caractère}
 L'approche par caractère considère que chaque caractère identifié selon sa position indépendemment des autres caractères. 
 
-La modélisation de la sortie de l'algorithme est une liste de $N_{max}$ distribution de probabilités,où $N_{max}$ est la longueur maximale qu'un mot sur une image en entrée. Les distribution de probalités modèlisent les lois de variables aléatoires à valeurs dans l'alphabet considèré pour identifier les mots augmenté par un caractère vide $\phi$. Un mot $\omega$ composé des caractères $c_1c_2\dotsc_n$ avec $n\leq N_{max}$ est encodé par la suite de $N_{max}$ caractères suivantes $c_1, c_2, \dots,c_n,\phi,\dots,\phi$. La prédiction de l'algorithme pour une image donnée $x$ est alors l'encodage $\omega^*$ défini par :
+La modélisation de la sortie de l'algorithme est une liste de $N_{max}$ distribution de probabilités,où $N_{max}$ est la longueur maximale qu'un mot sur une image en entrée. Les distribution de probalités modèlisent les lois de variables aléatoires à valeurs dans l'alphabet $C$ considèré pour identifier les mots augmenté par un caractère vide $\phi$. Un mot $\omega$ composé des caractères $c_1c_2\dots c_n$ avec $n\leq N_{max}$ est encodé par la suite de $N_{max}$ caractères suivantes $c_1, c_2, \dots,c_n,\phi,\dots,\phi$. La prédiction de l'algorithme pour une image donnée $x$ est alors l'encodage $\omega^*$ défini par :
 $$ \omega^* = \text{arg} \max_{\omega} P(w|x) = \text{arg} \max_{c_1, c_2, \dots,c_{N_{max}}} \prod_{i=1}^{N_{max}} P(c_i|\Phi(x))$$
 où $\Phi(x)$ est un ensemble de paramètres.
 
-L'algorithme du calcul des distributions est constitué d'un réseau de neurore conditionnel, qui sera réutiliser dans la 
+L'algorithme du calcul des distributions est constitué d'un réseau de neurore conditionnel, qui sera réutiliser dans la méthode suivante. Ce réseau de neurone est constitué de 5 couches convolutionnelles et 2 couches complétementement connectées de la dimension de l'image en entrée.
+
+Au bout du réseau de neurones spécialisé pour cette méthode, il y a $N_{max}$ couches complétements connectées et indépendantes avec $|C|+1$ neurones où $C$ est l'alphabet de sortie. On peut alors interpréter les valeurs de chacune de ces couches comme les distributions de probabilités mentionnées plus haut.
+
+En ce qui concerne la fonction de score $S_1$ de cette approche, on peut la définir de la manière suivante :
+$$ S_1(\omega,x) = \log P(\omega|x)  = \sum_{i=1}^{N_{max}} S^i(c,x)$$
+où $S^i$ est le logarithme de la probabilité que $i^e$ caractères de la sur l'entrée $x$ soit $c$ d'après l'algorithme.
+
+Le réseau de neurones est entraîné par une descente de gradient stochastique.
 
 \subsection{l'approche par sac de mots}
 
+L'approche par sac de mots utilise la même entrée, que l'approche précédentes.
+
+La sortie de cette approche est la probalité pour une sous-chaîne de caractères d'être présente dans l'image en entrée. On considère en particulier uniquement les sous-chaînes de taille inférieur à $N$ un entier, en pratique on a choisi 4. On définit le sac de mots d'un mot comme étant l'ensemble des sous-chaîne de caractères d'un mot. Pour des raisons pratiques, on ne considère que les sous-chaînes les plus présentes dans les datasets considérés et l'on nomme leur ensemble $G_N$.
+
+L'algorithme pour déterminer cette probabilité utilise le même premier réseau de neurones de l'approche précédent, mais se terminer avec une unique couche complétement connectée possédant exactement un neurone pour chaque sous-chaîne de caractères de $G_N$. 
+
+Ici la fonction de score $S_2$ peut être définie de la manière suivante :
+$$S_2(\omega,x) = \sum_{i=1}^{|\omega|} \sum_{k=1}^{\min(N,|\omega| -i +1)} S_e(c_ic_{i+1}\dots c_{i+k-1},x)$$
+où $\omega$ composé des caractères $c_1c_2\dots c_n$ et $S_e(c_ic_{i+1}\dots c_{i+k-1},x)$ est le logarithme de la probabilité d'avoir la sous-chaîne $c_ic_{i+1}\dots c_{i+k-1}$ dans l'entrée $x$. Si $s \notin G_N$, alors $S_e(s,x) = 0$
+
 \subsection{l'approche jointe}
+La méthode jointe effectue en parallèle est deux méthodes précédentes et définit un nouveau score $S$ pour une entrée $x$ définie par :
+$$ S(\omega,x) = S_1(\omega,x) + S_2(\omega,x)$$
+
+Encore une fois, une sortie pour cette approche est un mot qui maximise la fonction de score sachant l'entré $x$.
+
+
 
 \subsection{les différents ensembles de données}
 
