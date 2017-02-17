@@ -71,9 +71,20 @@ $$ S(\omega,x) = S_1(\omega,x) + S_2(\omega,x)$$
 
 Encore une fois, une sortie pour cette approche est un mot qui maximise la fonction de score sachant l'entré $x$.
 
-
+Ici, nous allons parler de la fonction du perte appliquée dans l'approche jointe, elle s'adapte facilement aux autres approches en remplaçant simplement $S$ par $S_1$ ou $S_2$. La function de perte utilisée ici est une fonction de perte de type Hinge. C'est à dire que la fonction de perte $L$ sur une entrée $x$ pour un mot $\omega$ est définie par :
+$$ L(x,\omega) = \max_{\omega \neq \omega' } \max(0,\mu+ S(\omega',x) - S(\omega,x))$$
+où $\mu$ est une marge fixée.
 
 \subsection{les différents ensembles de données}
+
+Les ensembles de données utilisés pour effectuer l'évaluation des différents approches sont les suivants
+\begin{itemize}
+\item ICDAR 2003
+\item ICDAR 2013
+\item Street View Text : textes extraits de Google Street View
+\item Synth90k : textes générés par ordinateur
+\end{itemize}
+
 
 \section{La méthode choisie}
 
