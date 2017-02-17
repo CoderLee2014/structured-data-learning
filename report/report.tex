@@ -16,7 +16,7 @@
 
 \author{Li Honglin \\Maxime Buron}
 \date{\today}
-\title{Deep Structured Output Learning Dor Unconstrained Text Recognition}
+\title{Deep Structured Output Learning For Unconstrained Text Recognition}
 \hypersetup{
  pdfauthor={Li Honglin Maxime Buron},
  pdftitle={Deep Structured Output Learning Dor Unconstrained Text Recognition},
@@ -85,11 +85,23 @@ Les ensembles de données utilisés pour effectuer l'évaluation des différents
 \item Synth90k : textes générés par ordinateur
 \end{itemize}
 
+Le derniers ensemble de données est particulièrement important. Il sert d'ensemble d'entraînement, puisqu'il est assez important.
 
 \section{La méthode choisie}
 
-\section{L'implémentation}
+\subsection{Notre projet}
+Nous avons choisi de réaliser la première approche, qui évalue les caractères les uns après les autres. Et nous avons décidé d'utiliser le dataset ICDAR2013, qui semble d'une taille et d'une difficulté convenable.
 
+\begin{figure}[h]
+  \includegraphics[scale=0.5]{./word_56.png}
+  \includegraphics[scale=0.5]{./word_83.png}
+  \caption{Exemple d'images en entrée}
+\end{figure}
+
+On remarque tout de suite la différence de taille des images, c'est pourquoi comme décrit précédemment les images sont déformées vers une taille précise et sauver dans une matrice à valeurs réelles. 
+
+\section{L'implémentation}
+Nous avons décidé d'utiliser Tensor Flow pour réaliser le réseau de neurones. 
 \section{Les résultats}
 
 \section{Conclusion}
